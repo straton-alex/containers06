@@ -197,12 +197,15 @@ git push origin main
 ### 9. Răspunsuri la întrebări
 
 1. **În ce mod în acest exemplu containerele pot interacționa unul cu celălalt?**
+
 Containerele interacționează prin rețeaua Docker `internal` utilizând protocolul FastCGI. Containerul `frontend` (Nginx) servește fișiere statice direct din directorul montat (`/var/www/html`), dar când întâlnește un fișier PHP, trimite cererea către containerul `backend` (PHP-FPM) prin adresa `backend:9000`. PHP-FPM procesează codul PHP și returnează rezultatul către Nginx, care apoi îl afișează utilizatorului. Această comunicare este posibilă datorită rețelei comune și configurației FastCGI din `default.conf`.
 
 2. **Cum văd containerele unul pe celălalt în cadrul rețelei internal?**
+
    - În rețeaua `internal`, Docker configurează un sistem DNS intern care rezolvă automat numele containerelor. Containerul `frontend` poate accesa containerul `backend` folosind numele acestuia (`backend`) în loc de o adresă IP. De exemplu, în configurația Nginx, `fastcgi_pass backend:9000` indică faptul că cererile sunt trimise către containerul numit `backend` pe portul `9000`. Această rezoluție a numelor este gestionată de Docker și funcționează doar în interiorul aceleiași rețele definite de utilizator.
 
 3. **De ce a fost necesar să se suprascrie configurarea Nginx?**
+
    - Configurația implicită a imaginii `nginx:1.23-alpine` este proiectată să servească doar fișiere statice (ex. HTML) și nu include suport pentru procesarea fișierelor PHP sau comunicarea cu PHP-FPM. Suprascrierea fișierului `default.conf` a fost necesară pentru a:
      - Seta directorul rădăcină corect (`/var/www/html`) unde este montat site-ul.
      - Defini fișierul implicit (`index.php`) pentru a rula aplicația PHP.
