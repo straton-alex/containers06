@@ -198,7 +198,7 @@ git push origin main
 
 1. **În ce mod în acest exemplu containerele pot interacționa unul cu celălalt?**
 
-Containerele interacționează prin rețeaua Docker `internal` utilizând protocolul FastCGI. Containerul `frontend` (Nginx) servește fișiere statice direct din directorul montat (`/var/www/html`), dar când întâlnește un fișier PHP, trimite cererea către containerul `backend` (PHP-FPM) prin adresa `backend:9000`. PHP-FPM procesează codul PHP și returnează rezultatul către Nginx, care apoi îl afișează utilizatorului. Această comunicare este posibilă datorită rețelei comune și configurației FastCGI din `default.conf`.
+    - Containerele interacționează prin rețeaua Docker `internal` utilizând protocolul FastCGI. Containerul `frontend` (Nginx) servește fișiere statice direct din directorul montat (`/var/www/html`), dar când întâlnește un fișier PHP, trimite cererea către containerul `backend` (PHP-FPM) prin adresa `backend:9000`. PHP-FPM procesează codul PHP și returnează rezultatul către Nginx, care apoi îl afișează utilizatorului. Această comunicare este posibilă datorită rețelei comune și configurației FastCGI din `default.conf`.
 
 2. **Cum văd containerele unul pe celălalt în cadrul rețelei internal?**
 
