@@ -35,10 +35,10 @@ Aplicația trebuie să fie configurată astfel încât cele două containere să
 
  3. Introducem comanda pentru clonare în consolă
 
-```bash
-git clone https://github.com/straton-alex/containers06.git
-cd containers06
-```
+    ```bash
+    git clone https://github.com/straton-alex/containers06.git
+    cd containers06
+    ```
 
 --- 
 
@@ -54,12 +54,12 @@ cd containers06
     ![](images/Screenshot-2025-04-05-200109.png)  
     ![](images/Screenshot-2025-04-05-200121.png)  
 
-    - Directorul `mounts\site` va conține fișierele site-ului PHP. Copiază aici site-ul creat în cursul `„Programare PHP”`. Dacă nu ai un site, creează un fișier de test:
+- Directorul `mounts\site` va conține fișierele site-ului PHP. Copiază aici site-ul creat în cursul `„Programare PHP”`. Dacă nu ai un site, creează un fișier de test:
 
-        ```bash
-        echo '<?php phpinfo();' > mounts/site/index.php
-        ```
-        > Acest fișier simplu afișează informații despre configurația PHP, fiind util pentru testare.
+    ```bash
+    echo '<?php phpinfo();' > mounts/site/index.php
+    ```
+    > Acest fișier simplu afișează informații despre configurația PHP, fiind util pentru testare.
 
 **2. Configurarea .gitignore**
 
@@ -123,13 +123,13 @@ cd containers06
 ### 4. Crearea rețelei interne
 - Creează o rețea Docker de tip `„bridge”` numită `internal`:
 
-```bash
-docker network create internal
-```
+    ```bash
+    docker network create internal
+    ```
 
-![](images/Screenshot-2025-04-05-201153.png) 
+    ![](images/Screenshot-2025-04-05-201153.png) 
 
-> Această rețea permite containerelor să comunice între ele într-un mediu izolat, fără a expune porturile inutil către gazdă.
+    > Această rețea permite containerelor să comunice între ele într-un mediu izolat, fără a expune porturile inutil către gazdă.
 
 ---
 ### 5. Lansarea containerului backend (PHP-FPM)
@@ -159,6 +159,13 @@ docker network create internal
     - portul `80` al containerului este expus pe portul `80` al calculatorului gazdei;
     - funcționează în rețeaua `internal`.
     </br>
+
+- Rulează containerul Nginx:
+
+    ```bash
+    docker run -d --name frontend --network internal -v ${PWD}/mounts/site:/var/www/html -v ${PWD}/nginx/default.conf:/etc/nginx/conf.d/default.conf -p 80:80 nginx:1.23-alpine
+    ```
+    ![](images/Screenshot-2025-04-05-202333.png) 
 
 ### 7. Testarea aplicației
 - Verifică starea containerelor:
